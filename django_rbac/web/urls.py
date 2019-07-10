@@ -5,9 +5,9 @@ from web.views import auth
 
 urlpatterns = [
 
-    url(r'^login/$', auth.login),
+    url(r'^login/$', auth.login,name='login'),
 
-    url(r'^customer/list/$', customer.customer_list),
+    url(r'^customer/list/$', customer.customer_list,name='customer_list'),
     url(r'^customer/add/$', customer.customer_add),
     url(r'^customer/edit/(?P<cid>\d+)/$', customer.customer_edit),
     url(r'^customer/del/(?P<cid>\d+)/$', customer.customer_del),

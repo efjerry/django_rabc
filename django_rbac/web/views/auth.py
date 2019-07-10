@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, reverse
 from rbac import models
+from django.conf import settings
 
 
 def login(request):
@@ -12,7 +13,13 @@ def login(request):
             return render(request, 'login.html', {'error': '用户名或密码错误'})
 
         # 保存权限信息
-        qr = obj.roles.all().values('permissions__title', 'permissions__title').distinct()
-        for i in qr:
-            print(i)
+        permission_list = obj.roles.all().filter(permissions__url__isnull=False).values('permissions__title',
+                                                                                        'permissions__url').distinct()
+
+        request.session[settings.PERMISSION_SESSION_KEY] = list(permission_list)
+
+        # print(list(permission_list))
+
+
+        return redirect(reverse('customer_list'))
     return render(request, 'login.html')
