@@ -1,5 +1,15 @@
 from django.db import models
 
+class Menu(models.Model):
+    """
+    菜单表  一级菜单
+    """
+    name = models.CharField(max_length=32)
+    icon = models.CharField(max_length=56, verbose_name='图标', blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
 
 class Permission(models.Model):
     """
@@ -7,8 +17,7 @@ class Permission(models.Model):
     """
     url = models.CharField(max_length=256, verbose_name='权限', unique=True)
     title = models.CharField(max_length=32, verbose_name='标题')
-    icon = models.CharField(max_length=56,verbose_name='图标',blank=True,null=True)
-    is_menu = models.BooleanField(verbose_name='是否为菜单',default=False)
+    menu = models.ForeignKey('Menu',blank=True,null=True)
 
     def __str__(self):
         return self.title
