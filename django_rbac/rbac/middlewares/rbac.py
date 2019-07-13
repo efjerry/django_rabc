@@ -19,14 +19,14 @@ class RbacMiddleware(MiddlewareMixin):
 
         # 获取权限信息
         permission_list = request.session.get(settings.PERMISSION_SESSION_KEY)
-        print(permission_list)
+        # print(permission_list)
 
         if not permission_list:
             return redirect(reverse('login'))
 
         # 权限校验
         for i in permission_list:
-            if re.match("^{}$".format(i['permissions__url']), url):
+            if re.match("^{}$".format(i['url']), url):
                 return
 
 

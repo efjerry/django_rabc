@@ -126,6 +126,8 @@ STATICFILES_DIRS = [
 
 PERMISSION_SESSION_KEY = 'permission'
 
+MENU_SESSION_KEY = 'menu'
+
 WHITE_LIST = [
     r'^/login/$',
     r'^/reg/$',

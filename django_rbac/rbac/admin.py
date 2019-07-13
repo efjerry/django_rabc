@@ -3,8 +3,8 @@ from rbac import models
 
 
 class PermissionAdmin(admin.ModelAdmin):
-    list_display = ['title', 'url']  # 写入要展示的字段
-    list_editable = ['url']  # 写入要编辑的字段
+    list_display = ['title', 'url','is_menu','icon']  # 写入要展示的字段
+    list_editable = ['url','icon','is_menu']  # 写入要编辑的字段
 
 
 admin.site.register(models.Role)
