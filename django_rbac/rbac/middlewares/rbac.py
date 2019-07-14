@@ -10,7 +10,7 @@ class RbacMiddleware(MiddlewareMixin):
 
         # 获取当前访问的url
         url = request.path_info
-        print(url)
+        # print(url)
 
         # 设置白名单
         for i in settings.WHITE_LIST:
@@ -25,8 +25,19 @@ class RbacMiddleware(MiddlewareMixin):
             return redirect(reverse('login'))
 
         # 权限校验
-        for i in permission_list:
-            if re.match("^{}$".format(i['url']), url):
+        for item in permission_list:
+
+            # 找到当前访问的url对应的权限
+            if re.match("^{}$".format(item['url']), url):
+
+                pid = item['pid']
+                id = item['id']
+
+                if pid:
+                    request.current_menu_id = pid
+                else:
+                    request.current_menu_id = id
+
                 return
 
 

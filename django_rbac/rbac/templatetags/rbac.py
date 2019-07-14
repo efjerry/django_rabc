@@ -1,5 +1,6 @@
 from django import template
 import re
+from collections import OrderedDict
 
 register = template.Library()
 
@@ -10,14 +11,25 @@ from django.conf import settings
 @register.inclusion_tag('menu.html')
 def menu(request):
     menu_dict = request.session.get(settings.MENU_SESSION_KEY)
+    print(menu_dict)
 
-    # url = request.path_info
-    #
-    # for item in menu_list:
-    #     if re.match(item['url'],url):
-    #         item['class'] = 'active'
+    order_dic = OrderedDict()
+
+    for key in sorted(menu_dict, key=lambda i: menu_dict[i]['weight'], reverse=True):
+
+        order_dic[key] = item = menu_dict[key]
+
+        item['class'] = 'hide'
+
+        for i in item['children']:
+
+            # if re.match('^{}$'.format(i['url']),request.path_info):
+            if i['id'] == request.current_menu_id:
+                i['class'] = 'active'
+                item['class'] = ''
+                break
 
 
 
-    return {'menu_list':menu_dict.values()}
+    return {'menu_list':order_dic.values()}
 

@@ -7,6 +7,9 @@ def init_permission(request,obj):
                                                                                      'permissions__menu__name',
                                                                                      'permissions__menu__icon',
                                                                                      'permissions__menu__id',
+                                                                                     'permissions__menu__weight',
+                                                                                     'permissions__id',
+                                                                                     'permissions__parent_id',
                                                                                      ).distinct()
 
     # 保存权限信息
@@ -17,23 +20,33 @@ def init_permission(request,obj):
 
     for item in permission_query:
         # 将权限信息放入permission_list
-        permission_list.append({'url': item['permissions__url']})
+        permission_list.append({'url': item['permissions__url'],
+                                'id':item['permissions__id'],
+                                'pid':item['permissions__parent_id']})
 
         # 放入菜单信息
         menu_id = item.get('permissions__menu__id')
+        # print(menu_id)
 
         if not menu_id:
             continue
 
         if menu_id not in menu_dict:
-            menu_dict[menu_id] = {'name': item['permissions__menu__name'], 'icon': item['permissions__menu__icon'],
-                                  'children': [{'title': item['permissions__title'], 'url': item['permissions__url']}]}
+
+            menu_dict[menu_id] = {'name': item['permissions__menu__name'],
+                                  'icon': item['permissions__menu__icon'],
+                                  'weight':item['permissions__menu__weight'],
+                                  'children': [{'title': item['permissions__title'],
+                                                'url': item['permissions__url'],
+                                                'id':item['permissions__id']},
+                                               ]
+                                  }
         else:
             menu_dict[menu_id]['children'].append(
-                {'title': item['permissions__title'], 'url': item['permissions__url']})
+                {'title': item['permissions__title'], 'url': item['permissions__url'],'id':item['permissions__id']})
 
 
-
+        print(menu_dict)
 
     # 权限保存到session中
     request.session[settings.PERMISSION_SESSION_KEY] = permission_list
