@@ -13,16 +13,17 @@ def init_permission(request,obj):
                                                                                      ).distinct()
 
     # 保存权限信息
-    permission_list = []
+    permission_dict = {}
 
     # 保存菜单信息
     menu_dict = {}
 
     for item in permission_query:
         # 将权限信息放入permission_list
-        permission_list.append({'url': item['permissions__url'],
+        permission_dict[item['permissions__id']] = {'url': item['permissions__url'],
                                 'id':item['permissions__id'],
-                                'pid':item['permissions__parent_id']})
+                                'pid':item['permissions__parent_id'],
+                                'title':item['permissions__title']}
 
         # 放入菜单信息
         menu_id = item.get('permissions__menu__id')
@@ -46,10 +47,10 @@ def init_permission(request,obj):
                 {'title': item['permissions__title'], 'url': item['permissions__url'],'id':item['permissions__id']})
 
 
-        print(menu_dict)
+        # print(menu_dict)
 
     # 权限保存到session中
-    request.session[settings.PERMISSION_SESSION_KEY] = permission_list
+    request.session[settings.PERMISSION_SESSION_KEY] = permission_dict
 
     # 菜单信息保存到session中
     request.session[settings.MENU_SESSION_KEY] = menu_dict

@@ -18,5 +18,10 @@ def login(request):
 
 
 
-        return redirect(reverse('customer_list'))
+        return redirect(reverse('index'))
     return render(request, 'login.html')
+
+
+def index(request):
+
+    return render(request,'index.html')

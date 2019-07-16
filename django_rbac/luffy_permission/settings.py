@@ -133,3 +133,8 @@ WHITE_LIST = [
     r'^/reg/$',
     r'^/admin/.*',
 ]
+
+NONEED_PERMISSION_LIST = [
+    r'^/index/$',
+
+]

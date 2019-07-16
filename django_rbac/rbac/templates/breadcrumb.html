@@ -1,0 +1,10 @@
+<div>
+    <ol class="breadcrumb no-radius no-margin" style="border-bottom: 1px solid #ddd;">
+
+        {% for breadcrumb in breadcrumb_list %}
+            <li><a href="{{ breadcrumb.url }}">{{ breadcrumb.title }}</a></li>
+        {% endfor %}
+
+
+    </ol>
+</div>

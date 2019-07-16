@@ -33,3 +33,7 @@ def menu(request):
 
     return {'menu_list':order_dic.values()}
 
+
+@register.inclusion_tag('breadcrumb.html')
+def breadcrumb(request):
+    return {'breadcrumb_list': request.breadcrumb_list}
