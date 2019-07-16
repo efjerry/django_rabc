@@ -4,12 +4,14 @@ from django.conf import settings
 def init_permission(request,obj):
     permission_query = obj.roles.all().filter(permissions__url__isnull=False).values('permissions__title',
                                                                                      'permissions__url',
+                                                                                     'permissions__name',
                                                                                      'permissions__menu__name',
                                                                                      'permissions__menu__icon',
                                                                                      'permissions__menu__id',
                                                                                      'permissions__menu__weight',
                                                                                      'permissions__id',
                                                                                      'permissions__parent_id',
+                                                                                     'permissions__parent__name',   #父权限的别名
                                                                                      ).distinct()
 
     # 保存权限信息
@@ -20,8 +22,9 @@ def init_permission(request,obj):
 
     for item in permission_query:
         # 将权限信息放入permission_list
-        permission_dict[item['permissions__id']] = {'url': item['permissions__url'],
+        permission_dict[item['permissions__name']] = {'url': item['permissions__url'],
                                 'id':item['permissions__id'],
+                                'pname':item['permissions__parent__name'],
                                 'pid':item['permissions__parent_id'],
                                 'title':item['permissions__title']}
 

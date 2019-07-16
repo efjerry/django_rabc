@@ -37,3 +37,9 @@ def menu(request):
 @register.inclusion_tag('breadcrumb.html')
 def breadcrumb(request):
     return {'breadcrumb_list': request.breadcrumb_list}
+
+
+@register.filter()
+def has_permission(request,name):
+    if name in request.session.get(settings.PERMISSION_SESSION_KEY):
+        return True

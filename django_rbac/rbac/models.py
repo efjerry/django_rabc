@@ -28,6 +28,7 @@ class Permission(models.Model):
     title = models.CharField(max_length=32, verbose_name='标题')
     menu = models.ForeignKey('Menu',blank=True,null=True)
     parent = models.ForeignKey('Permission',blank=True,null=True)
+    name = models.CharField(max_length=56,verbose_name='URL别名')
 
     def __str__(self):
         return self.title

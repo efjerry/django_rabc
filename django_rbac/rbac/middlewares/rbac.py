@@ -45,10 +45,11 @@ class RbacMiddleware(MiddlewareMixin):
 
                 pid = item['pid']
                 id = item['id']
+                pname = item['pname']
 
                 if pid:
                     request.current_menu_id = pid
-                    request.breadcrumb_list.append({'title':permission_dict[str(pid)]['title'],'url':permission_dict[str(pid)]['url']})
+                    request.breadcrumb_list.append({'title':permission_dict[pname]['title'],'url':permission_dict[pname]['url']})
                     request.breadcrumb_list.append({'title': item['title'], 'url': item['url']})
                 else:
                     request.current_menu_id = id
